@@ -58,6 +58,8 @@ export const handleGetFilesFromRepo = async (req: Request, res: Response, next: 
     if (!hasRepo) return res.sendWrappedError(new InvalidRepositoryError(repo));
 
     const gitObj = git(username, repo);
+    if (!gitObj) return res.sendWrappedError(new InvalidRepositoryError(repo));
+
     const files = await gitObj.raw(["ls-tree", "-r", "--name-only", "HEAD"]);
 
     return res.sendWrappedResponse(files.split("\n").filter(Boolean));
@@ -79,6 +81,8 @@ export const handleGetCommitsFromRepo = async (req: Request, res: Response, next
     if (!hasRepo) res.sendWrappedError(new InvalidRepositoryError(repo));
 
     const gitObj = git(username, repo);
+    if (!gitObj) return res.sendWrappedError(new InvalidRepositoryError(repo));
+
     const commits = await gitObj.log();
 
     return res.sendWrappedResponse(commits.all);
@@ -100,6 +104,8 @@ export const handleGetCommitFromRepo = async (req: Request, res: Response, next:
     if (!hasRepo) res.sendWrappedError(new InvalidRepositoryError(repo));
 
     const gitObj = git(username, repo);
+    if (!gitObj) return res.sendWrappedError(new InvalidRepositoryError(repo));
+
     const commits = await gitObj.log();
     const commit = commits.all.find((commit) => commit.hash === sha);
 
@@ -122,6 +128,8 @@ export const handleGetBranchesFromRepo = async (req: Request, res: Response, nex
     if (!hasRepo) res.sendWrappedError(new InvalidRepositoryError(repo));
 
     const gitObj = git(username, repo);
+    if (!gitObj) return res.sendWrappedError(new InvalidRepositoryError(repo));
+
     const branches = await gitObj.branch();
 
     return res.sendWrappedResponse(branches.all);

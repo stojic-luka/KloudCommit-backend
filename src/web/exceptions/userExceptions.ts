@@ -2,7 +2,7 @@ import BaseException from "./baseException";
 
 export class UserNotFoundException extends BaseException {
   constructor() {
-    super(403, "USER_NOT_FOUND", "User Not Found");
+    super(400, "USER_NOT_FOUND", "User Not Found");
   }
 }
 

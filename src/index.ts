@@ -16,14 +16,14 @@ if (missingEnvVars.length > 0) {
 
 const mainApp = express();
 mainApp.use(cors(require("./config/corsOptions")));
-mainApp.use(vhost("cloudcommit.com", webApp));
-mainApp.use(vhost("repo.cloudcommit.com", repoApp));
+mainApp.use(vhost("kloudcommit.com", webApp));
+mainApp.use(vhost("repo.kloudcommit.com", repoApp));
 
 const mainPort = process.env.MAIN_APP_PORT || 8080;
 mainApp.listen(mainPort, () => console.log(`Server main running on http://localhost:${mainPort}/`));
 
 const webPort = process.env.WEB_APP_PORT || 8081;
-webApp.listen(webPort, () => console.log(`Server main running on http://localhost:${webPort}/`));
+webApp.listen(webPort, () => console.log(`Server webApp running on http://localhost:${webPort}/`));
 
 const repoPort = process.env.REPO_APP_PORT || 8082;
-repoApp.listen(repoPort, () => console.log(`Server main running on http://localhost:${repoPort}/`));
+repoApp.listen(repoPort, () => console.log(`Server repoApp running on http://localhost:${repoPort}/`));

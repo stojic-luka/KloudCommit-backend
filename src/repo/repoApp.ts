@@ -1,4 +1,6 @@
-import express, { Router } from "express";
+import express, { Request, Response, NextFunction, Router } from "express";
+
+// http://localhost:8082/asd/WeatherWizard
 
 //  ROUTES
 import gitRouter from "./routes/gitRouter";
@@ -11,13 +13,20 @@ import responseWrappers from "./middlewares/responseWrappers";
 
 const repoApp = express();
 repoApp.use(responseWrappers);
+repoApp.use(express.raw({ type: "application/x-git-upload-pack-request" }));
+repoApp.use(express.raw({ type: "application/x-git-receive-pack-request" }));
 // repoApp.use("/ping", (req: Request, res: Response) => res.status(200).json({ message: "ping from repoApp" }));
+
+// repoApp.use((req: Request, res: Response, next: NextFunction) => {
+//   console.log(req);
+//   next();
+// });
 
 repoApp.use("/", gitRouter);
 
 const apiV1Router = Router();
-apiV1Router.use("/repos", reposRouter);
-repoApp.use("/api/v1", apiV1Router);
+apiV1Router.use("/v1", reposRouter);
+repoApp.use("/api", apiV1Router);
 
 //
 //  EXCEPTION HANDLING
